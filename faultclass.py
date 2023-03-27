@@ -459,6 +459,7 @@ def readout_data(
     faultlist,
     goldenrun_data,
     config_qemu,
+    p_qemu,
     queue_ram_usage=None,
     qemu_post=None,
     qemu_pre_data=None,
@@ -490,6 +491,16 @@ def readout_data(
 
     while 1:
         line = pipe.readline()
+        if p_qemu.is_alive() is False and len(line) == 0:
+            # print(f"force quit {index}, process.is_alive()={p_qemu.is_alive()}")
+            output = {}
+            output["index"] = index
+            output["faultlist"] = []
+            output["endpoint"] = None
+            output["end_reason"] = None
+            queue_output.put(output)
+            break
+
 
         if "$$$" in line:
             line = line[3:]
@@ -821,6 +832,7 @@ def python_worker(
             fault_list,
             goldenrun_data,
             config_qemu,
+            p_qemu,
             queue_ram_usage,
             qemu_post=qemu_post,
             qemu_pre_data=qemu_pre_data,
