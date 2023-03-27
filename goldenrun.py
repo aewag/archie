@@ -299,6 +299,11 @@ def generate_wildcard_faults(fault, tbexec, tbinfo):
                         }
                     )
 
+            # Evaluate exclude ranges
+            if any(instr in region for region in fault.address_exclude):
+                logger.debug(f"Exclude {fault.address_exclude} filtered {hex(instr)}")
+                continue
+
             # Generate expanded wildcard fault
 
             # Copy wildcard fault and modify it to target the current
