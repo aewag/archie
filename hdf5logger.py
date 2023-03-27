@@ -314,7 +314,7 @@ def hdf5collector(
         # readout queue and get next output from qemu. Will block
         exp = queue_output.get()
         t1 = time.time()
-        logger.info(
+        logger.debug(
             "got exp {}, {} still need to be performed. Took {}s. Elements in queu: {}".format(
                 exp["index"], num_exp, t1 - t0, queue_output.qsize()
             )

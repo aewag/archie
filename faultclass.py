@@ -169,7 +169,7 @@ def run_qemu(
                 f = open(f"log_{index}.txt", "wt", encoding="utf-8")
                 f.write(tmp.decode("utf-8"))
                 qlogger.debug(tmp.decode("utf-8"))
-        qlogger.info(f"Ended qemu for exp {index}! Took {time.time() - t0}")
+        qlogger.debug(f"Ended qemu for exp {index}! Took {time.time() - t0}")
     except KeyboardInterrupt:
         ps.kill()
         logger.warning(f"Terminate QEMU {index}")
@@ -521,7 +521,7 @@ def readout_data(
 
             elif "[END]" in line:
                 state = "none"
-                logger.info(
+                logger.debug(
                     f"Data received now on post processing for Experiment {index}"
                 )
 
@@ -827,7 +827,7 @@ def python_worker(
         )
         p_qemu.join()
         delete_fifos()
-        logger.info(
+        logger.debug(
             "Python worker for experiment {} done. Took {}s, mem usage {}KiB".format(
                 index, time.time() - t0, mem
             )

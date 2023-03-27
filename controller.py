@@ -341,7 +341,7 @@ def controller(
             p.start()
             p_list.append({"process": p, "start_time": time.time()})
 
-            clogger.info(f"Started worker {faults['index']}. Running: {len(p_list)}.")
+            clogger.debug(f"Started worker {faults['index']}. Running: {len(p_list)}.")
             clogger.debug(f"Fault address: {faults['faultlist'][0].address}")
             clogger.debug(
                 f"Fault trigger address: {faults['faultlist'][0].trigger.address}"
@@ -385,7 +385,7 @@ def controller(
                 if len_p_time_list > num_workers + 2:
                     p_time_list.pop(0)
                 p_time_mean = sum(p_time_list) / len_p_time_list
-                clogger.info("Current running Average {}".format(p_time_mean))
+                clogger.debug("Current running Average {}".format(p_time_mean))
                 "Remove process from list"
                 p_list.pop(i)
                 break

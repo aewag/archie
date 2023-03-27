@@ -125,7 +125,7 @@ def checktriggers_in_tb(faultconfig, data):
     valid_triggers = []
     invalid_triggers = []
     for faultdescription in faultconfig:
-        logger.info(
+        logger.debug(
             "Check Fault {}/{} for valid trigger".format(
                 faultdescription["index"] + 1, len(faultconfig)
             )
