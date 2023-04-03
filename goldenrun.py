@@ -8,6 +8,7 @@ from calculate_trigger import calculate_trigger_addresses
 from multiprocessing import Queue
 
 import logging
+import numpy
 import copy
 
 logger = logging.getLogger(__name__)
@@ -211,9 +212,15 @@ def generate_wildcard_faults(fault, tbexec, tbinfo):
 
         # Iterate over instructions in the translation block
         tb_info_asm = tbinfo.at[tbinfo.index[tbinfo["id"] == tb][0], "assembler"]
+        tb_info_total_size = tbinfo.at[tbinfo.index[tbinfo["id"] == tb][0], "size"]
+
         tb_info_asm = [
             int(instr.split("]")[0], 16) for instr in tb_info_asm.split("[")[1:]
         ]
+        tb_info_size = list(numpy.diff(tb_info_asm))
+        tb_info_size.append(
+            tb_info_total_size - sum(tb_info_size)
+        )  # calculate the last instr size
 
         for idx, instr in enumerate(tb_info_asm):
             # Evaluate start and stop conditions (global)
