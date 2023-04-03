@@ -1,4 +1,4 @@
-from faultclass import Fault
+from faultclass import detect_type, detect_model, Fault
 from faultclass import python_worker
 
 import pandas as pd
@@ -200,6 +200,14 @@ def generate_wildcard_faults(fault, tbexec, tbinfo):
     range_end_counter = 0
     wildcard_range_end_reached = False
     wildcard_local_active = False
+
+    if isinstance(fault.mask, dict):
+        assert (
+            fault.type == detect_type("instruction")
+        ), "fault.type has to be 'instruction', if fault.mask is a dict"
+        assert (
+            fault.model == detect_model("overwrite")
+        ), "fault.model has to be 'overwrite', if fault.mask is a dict"
 
     for tb in tbexec["tb"]:
         tb_hitcounters_analyzed = False
